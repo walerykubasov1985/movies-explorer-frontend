@@ -1,0 +1,32 @@
+.login {
+  margin-top: 70px;
+  width: 396px;
+}
+
+.login__name {
+  margin: 40px 0 0;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.login__signin {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.login__text-link {
+  color: #8b8b8b;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.login__link {
+  text-decoration: none;
+  color: #4285f4;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
