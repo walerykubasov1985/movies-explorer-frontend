@@ -16,7 +16,7 @@ function Header({ loggedIn }) {
         <Navigation /> :
         <nav className="header__butons">
           <Link to="/signup" className="header__btn">Регистрация</Link>
-          <Link to="/signin" className="header__btn">Войти</Link>
+          <Link to="/signin" className="header__btn header__btn_activ">Войти</Link>
 
         </nav>
       }

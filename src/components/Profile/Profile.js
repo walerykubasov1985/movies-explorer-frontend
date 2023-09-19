@@ -11,7 +11,7 @@ function Profile() {
       <Header />
       <main className="content">
         <section className="profile">
-          <h1 className="profile__title">Привет, Валерий!</h1>
+          <h1 className="profile__title">Привет, Виталий!</h1>
           <form className="profile__form">
             <label className='profile__label'>Имя
               <input
@@ -27,7 +27,6 @@ function Profile() {
               />
             </label>
 
-            {/* <hr className="profile__line" /> */}
             <label className='profile__label'>E-&nbsp;mail
               <input
                 type='email'
@@ -44,11 +43,11 @@ function Profile() {
           {
             !inputActiv ?
               <nav className="profile__btns">
-                <button className="profile__btn profile__btn_redact">Редактировать</button>
+                <button className="profile__btn profile__btn_redact" type="button"> Редактировать</button>
                 <Link to={"/"} className="profile__btn profile__btn_close">Выйти из аккаунта</Link>
               </nav>
               :
-              <button className={!inputActiv ? "profile__btn-save" : "profile__btn-save profile__btn-save_non-activ"}>Сохранить</button>
+              <button className={!inputActiv ? "profile__btn-save" : "profile__btn-save profile__btn-save_non-activ"} type="submit">Сохранить</button>
           }
 
 

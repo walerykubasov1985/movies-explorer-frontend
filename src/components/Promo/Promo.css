@@ -43,9 +43,9 @@
   .promo__image {
     align-self: center;
     margin-top: 140px;
-    overflow: hidden;
     max-width: 680px;
     max-height: 230px;
+    background-size: cover;
   }
 }
 

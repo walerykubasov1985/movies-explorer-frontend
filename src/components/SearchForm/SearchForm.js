@@ -15,7 +15,7 @@ function SearchForm() {
             required
           />
           <label className='search__label'><img className='search__label-img' src= {iconSearch} alt="постер фильма" />Фильм</label>
-          <button className="search__button"type="submit">Найти</button>
+          <button className="search__button" type="submit">Найти</button>
 
         </div>
 
@@ -32,7 +32,6 @@ function SearchForm() {
           
         </div>
       </form>
-      {/* <hr className="search__line" /> */}
     </section>
   )
 }

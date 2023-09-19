@@ -32,10 +32,8 @@
 }
 
 @media screen and (max-width: 800px) {
-  .cards-movies {
-    margin-top: 70px;
-  }
-  .cards-movies_container {
+  
+  .cards-movies__container {
     grid-template-columns: repeat(auto-fit, minmax(339px, 1fr));
     column-gap: 30px;
     row-gap: 30px;
@@ -43,10 +41,13 @@
 }
 
 @media screen and (max-width: 500px) {
+  .cards-movies {
+    margin-top: 50px;
+  }
   .cards-movies__more {
     width: 240px;
   }
-  .cards-movies_container {
+  .cards-movies__container {
     display: flex;
     flex-direction: column;
     gap: 34px;

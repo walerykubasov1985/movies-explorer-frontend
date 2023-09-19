@@ -11,5 +11,11 @@
   border-bottom: 1px solid #DADADA;
 }
 
-
+@media screen and (max-width: 500px) {
+  .section__title {
+    padding-bottom: 28px;
+    font-size: 18px;
+    font-weight: 400;
+  }
+  }
 

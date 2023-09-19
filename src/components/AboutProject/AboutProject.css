@@ -11,6 +11,7 @@
 .project__about {
   margin-top: 70px;
   display: flex;
+  justify-content: center;
   gap: 40px;
 }
 
@@ -39,10 +40,11 @@
 }
 
 .project__duration {
-  margin-top: 110px;
+  margin:110px auto 0 ;
   width: 100%;
   display: grid;
   grid-template-columns: 228px 1fr;
+
 }
 
 .project__strip {
@@ -57,18 +59,18 @@
   justify-content: center;
 }
 
-.project__time_short {
+.project__strip_time_short {
   color: #000;
   background-color: #3ddc84;
 }
 
-.project__time_long {
+.project__strip_time_long {
   color: #fff;
   background-color: #303030;
 }
 
-.project__part_short,
-.project__part_long {
+.project__strip_part_short,
+.project__strip_part_long {
   margin-top: 14px;
   padding: 0;
   color: #8b8b8b;
@@ -99,11 +101,12 @@
 
 @media screen and (max-width: 500px) {
   .project__container {
-    margin: 60px 18px 70px;
+    margin: 70px 18px 70px;
   }
   .project__about {
+    margin-top: 60px;
     flex-direction: column;
-    gap: 56px;
+    gap: 60px;
   }
   .project__description {
     gap: 16px;
@@ -119,12 +122,13 @@
     margin-top: 60px;
     grid-template-columns: 100px 1fr;
   }
-  .project__subtitle {
-    font-size: 12px;
-    line-height: 18px;
-  }
   .project__strip {
-    height: 35px;
+    padding: 11px 0;
     font-size: 11px;
   }
+  .project__strip_part_short,
+.project__strip_part_long {
+  padding: 0;
+  margin-top: 10px;
+}
 }

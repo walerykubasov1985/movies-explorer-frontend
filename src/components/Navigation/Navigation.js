@@ -15,10 +15,10 @@ function Navigation({location}) {
 
   return (
     <section className="navigation">
-      <nav className='navigation__menu'>
-        <button className={`navigation__btn ${!isClicked ? "navigation__btn-burger" : "navigation__btn-close"}`} onClick={isClicked ? handleMenuClose : handleMenuOpen}></button>
+      <nav className={!isClicked ? "navigation__menu" : "navigation_menu_open"}>
+        <button className={`navigation__btn ${!isClicked ? "navigation__btn-burger" : "navigation__btn-close"}`} onClick={isClicked ? handleMenuClose : handleMenuOpen} type='button'></button>
 
-        <ul className={`navigation__container ${isClicked ? " navigation__menu_open" : ""}`}>
+        <ul className={`navigation__container ${isClicked ? "navigation__menu_open" : ""}`}>
           <li className="navigation__link navigation__link_first">
             <NavLink to="/" className="navigation__link-text" onClick={handleMenuClose}>
               Главная</NavLink>

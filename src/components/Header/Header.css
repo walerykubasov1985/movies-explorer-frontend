@@ -1,6 +1,7 @@
 .header {
   padding: 18px 70px; 
   display: flex;
+  height: 74px;
   flex-direction: row;
   background-color: #073042;
   box-sizing: border-box;
@@ -30,18 +31,25 @@
   color: #fff;
   font-size: 12px;
   font-weight: 500;
-  height: 16px;
   line-height: 16px;
   text-decoration: none;
   cursor: pointer;
+  opacity: 1;
   transition: all 0.3s ease-in-out;
 }
 
+.header__btn_activ{
+  padding: 8px 20px;
+  background-color: #3ddc84;
+  color: #000;
+  border-radius: 3px;
+}
 .header__btn:hover {
   padding: 8px 20px;
   background-color: #3ddc84;
   color: #000;
   border-radius: 3px;
+  opacity: .8;
 }
 
 @media screen and (max-width: 800px) {
@@ -53,6 +61,9 @@
 @media screen and (max-width: 640px) {
   .header {
     padding: 18px 14px;
+  }
+  .header__butons {
+    gap: 3px
   }
   .header__btn {
     padding: 5px 12px;

@@ -1,6 +1,7 @@
 .search {
   background-color: #202020;
   border-bottom: 1px solid #424242;
+  box-sizing: border-box;
 }
 
 .search__form {
@@ -91,10 +92,19 @@
   justify-content: space-between;
   align-items: center;
   gap: 14px;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.3s ease-in;
 }
 
 .search__tumbler {
   display: inline-block;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.3s ease-in;
+}
+.search__tumbler:hover {
+  opacity: 0.8;
 }
 .search__checkbox {
   position: absolute;
@@ -144,8 +154,10 @@
 
 .search__checkbox:checked + .search__tumbler-name::after {
   background-color: #2be080;
+  border: 1px solid #fff;
   left: 16px;
   transition: all 0.2s linear;
+  box-sizing: border-box;
 }
 .search__checkbox:checked + .search__tumbler-name {
   opacity: 1;
@@ -153,13 +165,21 @@
 
 @media screen and (max-width: 800px) {
   .search__form {
-    margin: 80px 0 120px;
+    margin: 80px 0 109px;
+    gap: 19px;
+  }
+  .search__radio-container {
+    margin-right: 20px;
+    padding-left: 20px;
+  }
+  .search__button {
+    width: 70px;
   }
 }
 
 @media screen and (max-width: 600px) {
   .search__form {
-    margin: 80px 0 0;
+    margin: 80px 0 109px;
     flex-direction: column;
     justify-content: start;
     gap: 46px;
@@ -169,7 +189,7 @@
     align-items: center;
   }
   .search__button {
-    margin-right: 19px;
+    margin-right: 20px;
   }
   .search__label-img {
     display: none;
@@ -187,5 +207,14 @@
   }
   .search__line {
     margin-top: 109px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .search__button {
+    width: 80px;
+  }
+  .search__tumbler-name {
+    font-size: 11px;
   }
 }

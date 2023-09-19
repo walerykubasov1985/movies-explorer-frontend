@@ -7,10 +7,10 @@ function MoviesCard() {
       <img
         className="card-movie__image"
         src={image}
-        alt="картинка"
+        alt="фильм"
       />
       <div className="card-movie__caption">
-        <h2 className="card-movie__title">Когда я думаю о Германии ночью</h2>
+        <h2 className="card-movie__title">Когда я думаю о Германии</h2>
         <button className="card-movie__like card-movie__like_activ" type="button"></button>
         {/* card-movie__like_delete */}
       </div>

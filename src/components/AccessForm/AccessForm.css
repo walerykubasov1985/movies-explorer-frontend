@@ -1,4 +1,4 @@
-.accessForm {
+.access-form {
   display: flex;
   flex-direction: column;
   align-self: center;
@@ -6,21 +6,21 @@
   width: 396px;
 }
 
-.accessForm__name {
+.access-form__name {
   margin: 40px 0 0;
   color: #fff;
   font-size: 24px;
   font-weight: 500;
 }
 
-.accessForm__signin {
+.access-form__signin {
   display: flex;
   flex-direction: row;
   justify-content: center;
   margin-top: 16px;
 }
 
-.accessForm__text-link {
+.access-form__text-link {
   margin: 0;
   color: #8b8b8b;
   font-size: 14px;
@@ -28,7 +28,7 @@
   line-height: normal;
 }
 
-.accessForm__link {
+.access-form__link {
   margin: 0 0 0 6px;
   text-decoration: none;
   color: #4285f4;
@@ -38,34 +38,32 @@
   cursor: pointer;
 }
 
-.accessForm__link:hover {
+.access-form__link:hover {
   opacity: .7;
 }
 
 @media screen and (max-width: 800px) {
-  .accessForm {
+  .access-form {
     margin-top: 232px;
   }
   
 }
 
 @media screen and (max-width: 510px) {
-  .accessForm {
+  .access-form {
     align-items: center;
     margin-top: 56px;
     width: 260px;
   }
-  .accessForm__name {
+  .access-form__name {
     margin: 50px 0 0;
   }
 
-  .accessForm__text-link {
+  .access-form__text-link {
     font-size: 12px;
   }
   
-  .accessForm__link {
+  .access-form__link {
     font-size: 12px;
-   
   }
-  
 }

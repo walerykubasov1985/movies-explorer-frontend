@@ -14,10 +14,10 @@ function AccessForm({
 }) {
   return (
     <main className="content">
-      <section className="accessForm">
+      <section className="access-form">
 
         <Logo />
-        <h1 className="accessForm__name"> {title}</h1>
+        <h1 className="access-form__name"> {title}</h1>
 
         <form className="form">
           {children}
@@ -27,8 +27,8 @@ function AccessForm({
         <button type="submit" className="form__button">
           {buttonName}
         </button>
-        <div className="accessForm__signin">
-          <p className="accessForm__text-link">{textLink} <Link to={linkTo} className="accessForm__link"> {link} </Link> </p>
+        <div className="access-form__signin">
+          <p className="access-form__text-link">{textLink} <Link to={linkTo} className="access-form__link"> {link} </Link> </p>
 
         </div>
       </section>

@@ -3,6 +3,10 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  box-sizing: border-box;
+}
+.card-movie__image {
+  background-size: cover;
 }
 
 .card-movie__caption {
@@ -19,6 +23,7 @@
   height: 24px;
   background-image: url("../../images/icon__heart.svg");
   background-repeat: no-repeat;
+  background-size: 10px 10px;
   background-position: center;
   background-color: #313131;
   border: none;
@@ -34,7 +39,7 @@
 }
 
 .card-movie__like:hover {
-  opacity: .7;
+  opacity: 0.7;
 }
 
 .card-movie__title {
@@ -44,7 +49,7 @@
   color: #fff;
   font-size: 13px;
   font-weight: 500;
-  overflow: hidden;
+  line-height: normal;
 }
 
 .card-movie__duration {
@@ -70,11 +75,11 @@
     width: 100%;
   }
   .card-movie__caption {
-    margin: 15px 0 13px 0;
+    margin: 10px 0 13px 0;
     gap: 36px;
   }
   .card-movie__title {
-    margin: 0;
+    margin: 5px 0 0;
     width: 100%;
     color: #fff;
     font-size: 12px;

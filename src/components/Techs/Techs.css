@@ -4,7 +4,7 @@
 
 .techs__container {
   margin: 0 auto;
-  padding: 100px 70px 89px;
+  padding: 102px 70px 89px;
   display: flex;
   flex-direction: column;
 }
@@ -84,7 +84,7 @@
 
 @media screen and (max-width: 500px) {
   .techs__container {
-    padding: 70px 14px 70px;
+    padding: 69px 14px 70px;
   }
 
   .techs__title {
