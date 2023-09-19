@@ -1,0 +1,134 @@
+.project {
+  background-color: #202020;
+}
+
+.project__container {
+  padding: 110px 70px 110px;
+  display: flex;
+  flex-direction: column;
+}
+
+.project__about {
+  margin-top: 70px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.project__description {
+  max-width: 550px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.project__title {
+  margin: 0;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.04em;
+}
+
+.project__subtitle {
+  margin: 0;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.project__duration {
+  margin:110px auto 0 ;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 228px 1fr;
+
+}
+
+.project__strip {
+  width: 100%;
+  margin: 0;
+  padding: 9px 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project__strip_time_short {
+  color: #000;
+  background-color: #3ddc84;
+}
+
+.project__strip_time_long {
+  color: #fff;
+  background-color: #303030;
+}
+
+.project__strip_part_short,
+.project__strip_part_long {
+  margin-top: 14px;
+  padding: 0;
+  color: #8b8b8b;
+  line-height: 17px;
+  font-weight: 500;
+}
+
+@media screen and (max-width: 800px) {
+  .project__container {
+    padding: 0;
+    margin: 91px 50px 90px;
+  }
+  .project__about {
+    gap: 37px;
+  }
+  .project__description {
+    gap: 22px;
+  }
+  .project__duration {
+    margin-top: 93px;
+    grid-template-columns: 140px 1fr;
+  }
+  .project__subtitle {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .project__container {
+    margin: 70px 18px 70px;
+  }
+  .project__about {
+    margin-top: 60px;
+    flex-direction: column;
+    gap: 60px;
+  }
+  .project__description {
+    gap: 16px;
+  }
+  .project__title {
+    font-size: 18px;
+  }
+  .project__subtitle {
+    font-size: 11px;
+    line-height: 16px;
+  }
+  .project__duration {
+    margin-top: 60px;
+    grid-template-columns: 100px 1fr;
+  }
+  .project__strip {
+    padding: 11px 0;
+    font-size: 11px;
+  }
+  .project__strip_part_short,
+.project__strip_part_long {
+  padding: 0;
+  margin-top: 10px;
+}
+}

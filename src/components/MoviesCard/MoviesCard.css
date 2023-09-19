@@ -1,0 +1,91 @@
+.card-movie {
+  width: 270px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.card-movie__image {
+  background-size: cover;
+}
+
+.card-movie__caption {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 10px 0 13px 0;
+}
+
+.card-movie__like {
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  background-image: url("../../images/icon__heart.svg");
+  background-repeat: no-repeat;
+  background-size: 10px 10px;
+  background-position: center;
+  background-color: #313131;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.card-movie__like_activ {
+  background-image: url("../../images/icon__heart_red.svg");
+}
+.card-movie__like_delete {
+  background-image: url("../../images/icon__card_close.svg");
+}
+
+.card-movie__like:hover {
+  opacity: 0.7;
+}
+
+.card-movie__title {
+  margin: 4px 0 0;
+  width: 226px;
+  height: 32px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.card-movie__duration {
+  margin: 0;
+  border-top: 1px solid #424242;
+  padding-top: 6px;
+  color: #8b8b8b;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+@media screen and (max-width: 800px) {
+  .card-movie {
+    width: 339px;
+  }
+  .card-movie__caption {
+    gap: 20px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .card-movie {
+    width: 100%;
+  }
+  .card-movie__caption {
+    margin: 10px 0 13px 0;
+    gap: 36px;
+  }
+  .card-movie__title {
+    margin: 5px 0 0;
+    width: 100%;
+    color: #fff;
+    font-size: 12px;
+  }
+
+  .card-movie__duration {
+    font-size: 10px;
+  }
+}
