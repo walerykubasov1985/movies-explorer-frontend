@@ -1,17 +1,16 @@
 import Logo from "../Logo/Logo"
 import Navigation from "../Navigation/Navigation";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Header.css"
 
 
 function Header({ loggedIn }) {
-
+  const location = useLocation();
 
 
   return (
-    <header className= {!loggedIn ? "header header_none-color" : "header"} >
+    <header className= {location.pathname === '/' ? "header" : "header header_none-color"} >
       <Logo />
-
       {!loggedIn ?
         <Navigation /> :
         <nav className="header__butons">

@@ -27,12 +27,25 @@
   font-size: 12px;
   font-weight: 500;
 }
+
 .cards-movies__more:hover {
   opacity: 0.8;
 }
+.cards-movies__text {
+  margin: 0 auto;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.cards-movies__no-card {
+  margin: auto;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+}
 
 @media screen and (max-width: 800px) {
-  
   .cards-movies__container {
     grid-template-columns: repeat(auto-fit, minmax(339px, 1fr));
     column-gap: 30px;

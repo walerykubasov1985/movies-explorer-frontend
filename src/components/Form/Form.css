@@ -1,6 +1,5 @@
 .form {
   width: 100%;
-  height: 266px;
   display: flex;
   flex-direction: column;
   margin-top: 40px;
@@ -34,11 +33,18 @@
   border: 1px solid #424242;
 }
 
+.form__btn-contayner {
+  margin-top: 69px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
+
 .form__button {
   width: 100%;
-  margin-top: 69px;
-  height: 45px; 
-  padding: 0;
+  padding: 13px 0 15px;
   border: none;
   border-radius: 3px;
   background-color: #4285f4;
@@ -49,30 +55,44 @@
   cursor: pointer;
   opacity: 1;
   transition: opacity 0.2s ease-in-out;
+  position: relative;
 }
 .form__button:hover {
   opacity: 0.8;
 }
 
-.form__input-error {
+.form__button_disabled{
+  opacity: .3;
+}
+
+.form__error-message {
   position: absolute;
-  left: 0;
   bottom: -16px;
-  margin: 0;
-  color: #ee3465;
+  left: 0;
+  color: #ff004c;
   font-size: 10px;
   font-weight: 400;
 }
-
-.form__input_err {
-  color: #ee3465;
+.form__input_error {
+  color: #ff004c;
+  border: 1px solid #ff004c;
+}
+.form__info_err-message {
+  position: absolute;
+  top: -31px;
+  color: #ff004c;
+  font-size: 11px;
+  font-weight: 400;
+}
+.form__error-message_profil{
+  bottom: 0;
 }
 
 @media screen and (max-width: 510px) {
   .form {
     margin-top: 80px;
   }
-  .form__button {
+  .form__btn-contayner {
     margin-top: 157px;
   }
 }

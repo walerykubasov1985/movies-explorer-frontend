@@ -1,17 +1,28 @@
 import "./Login.css"
 import "../Form/Form.css"
 import AccessForm from "../AccessForm/AccessForm"
-// import { Link } from "react-router-dom";
+import { useFormValidation } from '../../utils/FormValidation';
 
-function Login() {
+function Login({ handleLogin, errMessage, setErrorMessage }) {
+  const { values, errors, isValid, handleChange } = useFormValidation();
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    handleLogin(
+      values.password,
+      values.email)
+  };
+
   return (
     <AccessForm
-      linkTo = "/signup"
+      linkTo="/signup"
       title="Рады видеть!"
       buttonName="Войти"
       link="Регистрация"
       textLink="Ещё не зарегистрированы?"
-
+      onSubmit={handleLoginSubmit}
+      errMessage={errMessage}
+      isValid={isValid}
     >
       <label className="form__label">E-mail
         <input
@@ -20,10 +31,12 @@ function Login() {
           id="email"
           name="email"
           type="email"
+          pattern="^[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+$"
           placeholder="введите почту"
-          minLength='2'
-          maxLength='30'
+          value={values.email || ''}
+          onChange={handleChange}
         />
+        <span className="form__error-message" >{errors.email}</span>
       </label>
       <label className="form__label">Пароль
         <input
@@ -35,7 +48,10 @@ function Login() {
           placeholder="ведите пароль"
           minLength='4'
           maxLength='15'
+          value={values.password || ''}
+          onChange={handleChange}
         />
+        <span className="form__error-message" >{errors.password}</span>
       </label>
     </AccessForm>
   )

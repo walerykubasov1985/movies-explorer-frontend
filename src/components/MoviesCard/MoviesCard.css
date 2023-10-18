@@ -4,9 +4,18 @@
   flex-direction: column;
   cursor: pointer;
   box-sizing: border-box;
+  overflow: hidden;
 }
+
+.card-movie__trailer {
+  
+  margin: 0 auto;
+}
+
 .card-movie__image {
-  background-size: cover;
+  height: 100%;
+  object-fit: cover;
+  height: 151px;
 }
 
 .card-movie__caption {
