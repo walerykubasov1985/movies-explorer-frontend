@@ -1,0 +1,14 @@
+.app {
+	margin-top: 0;
+	margin: 0 auto;
+	font-family: 'Inter', 'Arial', 'Helvetica', sans-serif;
+	/* max-width: 1280px; */
+	/* padding: 0 70px 0; */
+	min-width: 320px;
+	min-height: 100vh;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	background-color: #202020;
+	flex-grow: 1;
+}

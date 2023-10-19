@@ -1,0 +1,69 @@
+.access-form {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  margin-top: 70px;
+  width: 396px;
+}
+
+.access-form__name {
+  margin: 40px 0 0;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.access-form__signin {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.access-form__text-link {
+  margin: 0;
+  color: #8b8b8b;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.access-form__link {
+  margin: 0 0 0 6px;
+  text-decoration: none;
+  color: #4285f4;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+  cursor: pointer;
+}
+
+.access-form__link:hover {
+  opacity: .7;
+}
+
+@media screen and (max-width: 800px) {
+  .access-form {
+    margin-top: 232px;
+  }
+  
+}
+
+@media screen and (max-width: 510px) {
+  .access-form {
+    align-items: center;
+    margin-top: 56px;
+    width: 260px;
+  }
+  .access-form__name {
+    margin: 50px 0 0;
+  }
+
+  .access-form__text-link {
+    font-size: 12px;
+  }
+  
+  .access-form__link {
+    font-size: 12px;
+  }
+}

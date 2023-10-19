@@ -1,0 +1,153 @@
+.profile {
+  width: 410px;
+  display: flex;
+  flex-direction: column;
+  margin: 74px auto 0;
+}
+
+.profile__title {
+  margin: 0 auto;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.profile__form {
+  margin-top: 108px;
+  display: flex;
+  flex-direction: column; 
+}
+
+.profile__label {
+  padding: 18px 0 16px 0;
+  display: flex;
+  justify-content: space-between;
+  color: #fff;
+  height: 14px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: normal;
+  border-bottom: 1px solid #424242;
+  position: relative;
+}
+
+.profile__label:last-of-type{
+  border-bottom: none;
+} 
+
+.profile__input {
+  box-sizing: border-box;
+  width: 100%;
+  border: none;
+  background-color: inherit;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 400;
+  direction: rtl;
+}
+
+.profile__input:focus{
+  outline: none;
+  border: 1px solid #424242;
+}
+
+.profile__btns {
+  margin: 204px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
+.profile__btn {
+  border: none;
+  background-color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.profile__btn-save {
+  margin: 220px 0 0;
+  padding: 13px 0 15px 0;
+  border: none;
+  background-color: #3456f3;
+  cursor: pointer;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: normal;
+  border-radius: 3px;
+}
+.profile__btn-save_non-activ {
+  background-color: #f8f8f8;
+  color: #c2c2c2;
+  cursor: default;
+}
+
+.profile__btn:hover {
+  opacity: 0.7;
+}
+
+.profile__btn_redact {
+  margin: 0;
+  padding: 0;
+  color: #fff;
+  font-weight: 400;
+}
+
+.profile__btn_close {
+  color: #ee3465;
+  font-weight: 500;
+}
+
+.profile__error {
+  margin: 0 auto;
+  color: #ff004c;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: normal;
+  position: relative;
+  top: 189px;
+}
+.profile__save {
+  color: #2bff00;
+}
+
+@media screen and (max-width: 769px) {
+  .profile {
+    margin: 235px auto 0;
+  }
+  .profile__form {
+    margin-top: 79px;
+  }
+  .profile__btns {
+    margin: 194px auto 0;
+  }
+  .profile__btn-save {
+    margin: 210px 0 0;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .profile {
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    margin: 69px auto 0;
+  }
+
+  .profile__form {
+    margin-top: 62px;
+  }
+  .profile__btns {
+    margin: 363px auto 0;
+  }
+
+  .profile__btn {
+    font-size: 12px;
+  }
+  .profile__btn-save {
+    margin: 379px 0 0;
+    font-size: 12px;
+  }
+}
