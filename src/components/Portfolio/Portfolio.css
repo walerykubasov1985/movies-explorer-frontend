@@ -54,6 +54,7 @@
   flex-direction: row-reverse;
   justify-content: space-between;
   align-items: center;
+  text-decoration: none;
 }
 .portfolio__arrow-image {
   object-fit: cover;
