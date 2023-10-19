@@ -16,3 +16,5 @@
 ### Доработка:
  - функциональность приложения
 ### Макет: Dark-1
+### GitHub: https://github.com/walerykubasov1985/movies-explorer-frontend/pull/2
+### Сайт: https://movies-explorer-wawa.nomoreparties.co/movies
