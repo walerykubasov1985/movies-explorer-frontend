@@ -8,6 +8,7 @@ function SearchForm({
   setChecked,
   initialValue,
   onInputChange,
+  
 }) {
   const [inputValue, setInputValue] = useState(initialValue || '');
   const [textMessage, setTextMessage] = useState(null);
@@ -29,7 +30,7 @@ function SearchForm({
     setTextMessage(null);
     onSearch(inputValue);
   };
-
+ 
   return (
     <section className="search">
       <div className="search__container">

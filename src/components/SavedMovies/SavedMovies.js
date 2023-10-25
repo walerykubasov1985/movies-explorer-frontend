@@ -20,6 +20,7 @@ function SavedMovies({
   const handleSearch = (query) => {
     setCurrentQuery(query);
     const result = filterMovies(savedMovies, query, isShortMovies);
+   console.log(result)
     setFilteredMovies(result);
   };
 
@@ -32,8 +33,6 @@ function SavedMovies({
   useEffect(() => {
     setFilteredMovies(savedMovies);
   }, [savedMovies])
-
-  console.log(filteredMovies)
 
   return (
     <>

@@ -12,7 +12,8 @@ function Movies({
   isLoading,
   savedMovies,
   onSave,
-  isBlockInput
+  isBlockInput,
+  onDelete
 }) {
 
   const [query, setQuery] = useState(localStorage.getItem('searchQuery') || '');
@@ -61,6 +62,7 @@ function Movies({
             onSave={onSave}
             savedMovies={savedMovies}
             isBlockInput={isBlockInput}
+            onDelete={onDelete}
           />
         }
       </main>

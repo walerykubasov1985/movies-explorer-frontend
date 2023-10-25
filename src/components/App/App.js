@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Route, Routes, useNavigate, } from 'react-router-dom';
+import { Route, Routes, useNavigate, Navigate, useLocation} from 'react-router-dom';
 import CurrentUserContext from "../../context/CurrentUserContext";
 import './App.css';
 import Header from '../Header/Header';
@@ -12,12 +12,14 @@ import Profile from '../Profile/Profile';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-import apiBeatfilm from "../../utils/api";
-import mainApi from "../../utils/mainApi"
+import apiBeatfilm from "../../utils/MoviesApi";
+import mainApi from "../../utils/MainApi"
 import * as auth from "../../utils/auth";
 
 function App() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const path = location.patchname;
   const [loggedIn, setLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
@@ -26,6 +28,7 @@ function App() {
   const [isBlockInput, setIsBlockInput] = useState(false);
   const [errorMessage, setErrorMessage] = useState({ errMessage: '', });
   const [saveMessage, setSaveMessage] = useState({ textMessage: '', });
+  const [userAutorisate, setUserAutorisate] = useState(false);
 
   // регистрация пользователя
   const handleRegister = (name, password, email) => {
@@ -59,6 +62,7 @@ function App() {
         if (data.token) {
           localStorage.setItem("jwt", data.token);
           setLoggedIn(true);
+          setUserAutorisate(prev => !prev)
           navigate("/movies");
           handleCheckToken();
         }
@@ -87,7 +91,10 @@ function App() {
         .checkToken(jwt)
         .then((data) => {
           setCurrentUser(data);
+          navigate( path, {replace:true});
+          setUserAutorisate(prev => !prev)
           setLoggedIn(true);
+          
         })
         .catch((err) => {
           console.log(err);
@@ -103,6 +110,7 @@ function App() {
   function handleOutProfil() {
     localStorage.clear();
     navigate("/");
+    setUserAutorisate(prev => !prev)
     setCurrentUser(null);
     setLoggedIn(false);
     setAllMovies([]);
@@ -136,37 +144,57 @@ function App() {
   //получение информации о фильмах с сервера
   useEffect(() => {
     setIsLoading(true);
-    if(loggedIn) {
+    if (userAutorisate) {
     Promise.all([
       apiBeatfilm.getInitialCards(),
       mainApi.getSavedMovies(),
     ])
       .then(([cardData, savedCardData]) => {
         setAllMovies(cardData);
+        console.log(cardData)
         setSavedMovies(savedCardData);
+
         setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
         setIsLoading(false);
       });
-  }}, [loggedIn]);
+    }
+  }, [userAutorisate]);
 
   //Сохранение фильма
-  function handleSaveMovie(movie) {
-    mainApi
-      .createNewMovie(movie)
-      .then((newMovie) => {
-        setSavedMovies([newMovie, ...savedMovies]);
-        setIsBlockInput(true)
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleSaveMovie = (movie) => {
+    const isSaved = savedMovies.some((item) => item.movieId === movie.id);
+    if (!isSaved) {
+      mainApi.createNewMovie(movie)
+        .then((savedMovie) => {
+          setSavedMovies([...savedMovies, savedMovie]);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      const deleteMovies = savedMovies.find(
+        (item) => item.movieId === movie.id
+      );
+
+      if (deleteMovies && deleteMovies._id) {
+        mainApi.deleteMovie(deleteMovies._id)
+          .then(() => {
+            setSavedMovies((movies) =>
+              movies.filter((item) => item._id !== deleteMovies._id)
+            );
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
   }
 
-  function handleDeleteSaveMovie(movie) {
-    mainApi
+  const handleDeleteSaveMovie = (movie) => {
+    return mainApi
       .deleteMovie(movie._id)
       .then(() => {
         const newCardsArr = savedMovies.filter((c) => c._id !== movie._id);
@@ -181,32 +209,8 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="app">
         <Routes>
-          <Route path='/' element={
-            <>
-              <Header loggedIn={!loggedIn} />
-              <Main />
-              <Footer />
-            </>
-          }
-          />
-          <Route path="/signin"
-            element={
-              <Login
-                handleLogin={handleLogin}
-                errMessage={errorMessage.errMessage}
-                setErrorMessage={setErrorMessage}
-              />}
-
-          />
-          <Route
-            path='/signup'
-            element={
-              <Register
-                onRegister={handleRegister}
-                errMessage={errorMessage.errMessage}
-                setErrorMessage={setErrorMessage}
-              />}
-          />
+          
+          
           <Route
             path="/movies"
             element={
@@ -218,6 +222,7 @@ function App() {
                 savedMovies={savedMovies}
                 onSave={handleSaveMovie}
                 isBlockInput={isBlockInput}
+                onDelete={handleDeleteSaveMovie}
 
               />}
           />
@@ -229,6 +234,7 @@ function App() {
                 loggedIn={loggedIn}
                 savedMovies={savedMovies}
                 onDelete={handleDeleteSaveMovie}
+
               />}
           />
           <Route
@@ -246,6 +252,38 @@ function App() {
                 isBlockInput={isBlockInput}
                 setIsBlockInput={setIsBlockInput}
               />}
+          />
+
+          <Route path="/signin"
+            element={
+              loggedIn ?
+             (<Navigate to="/movies" replace loggedIn={loggedIn} />)
+              :
+              (<Login
+                handleLogin={handleLogin}
+                errMessage={errorMessage.errMessage}
+                setErrorMessage={setErrorMessage}
+              />)}
+          />
+          <Route
+            path='/signup'
+            element={
+              loggedIn ?
+             (<Navigate to="/movies" replace loggedIn={loggedIn} />)
+              :
+              (<Register
+                onRegister={handleRegister}
+                errMessage={errorMessage.errMessage}
+                setErrorMessage={setErrorMessage}
+              />)}
+          />
+          <Route exact path='/' element={
+            <>
+              <Header loggedIn={!loggedIn} />
+              <Main />
+              <Footer />
+            </>
+          }
           />
           <Route path="*" element={<PageNotFound />} />
         </Routes>

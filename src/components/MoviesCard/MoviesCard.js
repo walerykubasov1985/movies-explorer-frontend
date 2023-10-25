@@ -1,6 +1,7 @@
 import { BASE_URL } from "../../utils/constant";
 import "./MoviesCard.css"
 import { getTransformationTime } from "../../utils/utils"
+// import { useState, useEffect } from "react";
 
 function MoviesCard({
   movie,
@@ -9,9 +10,10 @@ function MoviesCard({
   onDelete,
   savedMovies,
 }) {
-
+  // console.log(movie)
   const isSaved = savedMovies.some(item => item?.movieId === movie.id);
-
+  
+  
   const handleSave = () => {
     onSave(movie);
   };
@@ -30,21 +32,17 @@ function MoviesCard({
         /> </a>
       <div className="card-movie__caption">
         <h2 className="card-movie__title">{movie.nameRU || movie.nameEN}</h2>
-        {!isSavedMoviePage ?
-          (<button
-            className={`card-movie__like ${isSaved ? "card-movie__like card-movie__like_activ" : ""}`}
-            disabled={isSaved ? true : false}
-            type="button"
-            onClick={handleSave}
 
+        {isSavedMoviePage ? (
+          <button className='card-movie__like card-movie__like_delete' onClick={handleDelete}>
+          </button>
+        ) : (
+          <button
+            className={`card-movie__like ${isSaved ? 'card-movie__like_activ' : ''}`}
+            onClick={handleSave}
           >
-          </button>) :
-          (<button
-            className="card-movie__like card-movie__like_delete"
-            type="button"
-            onClick={handleDelete}>
-          </button>)
-        }
+          </button>
+        )}
       </div>
       <p className="card-movie__duration">{getTransformationTime(movie.duration)}</p>
 
