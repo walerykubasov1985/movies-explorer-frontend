@@ -4,14 +4,12 @@ class MainApi {
     this._headers = headers;
   }
 
-
   _getResponseData(res) {
     if (res.ok) {
       return res.json();
     }
     return Promise.reject(`Ошибка: ${res.status}`);
   }
-
 
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {

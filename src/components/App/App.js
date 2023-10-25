@@ -13,7 +13,7 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import apiBeatfilm from "../../utils/MoviesApi";
-import mainApi from "../../utils/MainApi"
+import mainApi from "../../utils/mainApi"
 import * as auth from "../../utils/auth";
 
 function App() {
