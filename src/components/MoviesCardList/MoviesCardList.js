@@ -26,6 +26,7 @@ function MoviesCardList({
   const [quantiteMoviesNum, setQuantiteMoviesNum] = useState(0);
   const [stepMovies, setStepMovies] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [showList, setShowList] = useState([]);
 
   const handleResize = () => {
     setTimeout(() => setWindowWidth(window.innerWidth), 1000);
@@ -37,7 +38,7 @@ function MoviesCardList({
       setQuantiteMoviesNum(QUANTITY_SCREEN_1280);
       setStepMovies(CARDS_STEP_1280);
     } else if (windowWidth >= SCREEN_990) {
-      setQuantiteMoviesNum( QUANTITY_SCREEN_990);
+      setQuantiteMoviesNum(QUANTITY_SCREEN_990);
       setStepMovies(CARDS_STEP_990);
     } else if (windowWidth >= SCREEN_768) {
       setQuantiteMoviesNum(QUANTITY_SCREEN_768);
@@ -51,31 +52,44 @@ function MoviesCardList({
     }
   }, [windowWidth, movies]);
 
+
+  useEffect(() => {
+    if (movies.length && !isSavedMoviePage) {
+      const res = movies.filter((item, index) => index < quantiteMoviesNum);
+      setShowList(res);
+    } else setShowList(movies);
+
+  }, [movies, isSavedMoviePage, quantiteMoviesNum]);
+
   const handleMoreBtnClick = () => {
-    setQuantiteMoviesNum(quantiteMoviesNum + stepMovies);
-  }
+    const start = showList.length;
+    const end = start + stepMovies;
+    const residual = movies.length - start;
+
+    if(residual > 0){
+      const newCards = movies.slice(start, end);
+      setShowList([...showList, ...newCards]);
+    }
+  };
+  
   // console.log(movies)
   return (
     <section className="cards-movies">
       {movies.length === 0 ? <p className="cards-movies__text">Ничего не найдено</p> : ""}
 
       <ul className="cards-movies__container">
-        {movies.reduce((moviesRender, movie) => {
 
-          moviesRender.length < quantiteMoviesNum &&
-            moviesRender.push(
-              <li key={movie.id ?? movie.movieId}>
-                <MoviesCard
-                  movie={movie}
-                  isSavedMoviePage={isSavedMoviePage}
-                  onSave={onSave}
-                  savedMovies={savedMovies}
-                  onDelete={onDelete}
-                />
-              </li>
-            )
-          return moviesRender;
-        }, [])}
+        {showList.map((item) => 
+                <li key={item.id ?? item.movieId}>
+                  <MoviesCard
+                    movie={item}
+                    isSavedMoviePage={isSavedMoviePage}
+                    onSave={onSave}
+                    savedMovies={savedMovies}
+                    onDelete={onDelete}
+                  />
+                </li>
+          )}
       </ul>
 
       {

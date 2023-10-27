@@ -7,7 +7,7 @@ export function getTransformationTime(min) {
 }
 
 //функция фильтрации фильмов
-export function filterMovies(movies, query, showShortMovies) {
+export default function filterMovies(movies, query, showShortMovies) {
    let filteredMovies = movies.filter(movie => {
       const movieNameRU = movie.nameRU.toLowerCase();
       const movieNameEN = movie.nameEN ? movie.nameEN.toLowerCase() : "";

@@ -4,8 +4,9 @@ import Header from "../Header/Header"
 import "./Movies.css"
 import MoviesCardList from "../MoviesCardList/MoviesCardList"
 import Footer from "../Footer/Footer"
-import { filterMovies } from "../../utils/utils"
+import filterMovies from "../../utils/utils"
 import Preloader from "../Preloder/Preloader"
+
 
 function Movies({
   movies,
@@ -15,7 +16,7 @@ function Movies({
   isBlockInput,
   onDelete
 }) {
-
+  // console.log(movies)
   const [query, setQuery] = useState(localStorage.getItem('searchQuery') || '');
   const [isChecked, setChecked] = useState(localStorage.getItem('isShortFilmChecked') === 'true');
   const [filteredMovies, setFilteredMovies] = useState(JSON.parse(localStorage.getItem('filteredMovies')) || []);
@@ -23,15 +24,27 @@ function Movies({
 
   useEffect(() => {
     localStorage.setItem('searchQuery', query);
-    localStorage.setItem('isShortFilmChecked', isChecked.toString());
-    localStorage.setItem('filteredMovies', JSON.stringify(filteredMovies));
-    localStorage.setItem('inputValue', inputValue);
-  }, [query, isChecked, filteredMovies, inputValue]);
+  }, [query]);
 
   useEffect(() => {
-    const result = filterMovies(movies, query, isChecked);
-    setFilteredMovies(result);
+    localStorage.setItem('isShortFilmChecked', isChecked.toString());
+  }, [isChecked]);
+
+  useEffect(() => {
+    localStorage.setItem('filteredMovies', JSON.stringify(filteredMovies));
+  }, [filteredMovies]);
+
+  useEffect(() => {
+    localStorage.setItem('inputValue', inputValue);
+  }, [inputValue]);
+
+  useEffect(() => {
+    if (query) {
+      const result = filterMovies(movies, query, isChecked);
+      setFilteredMovies(result);
+    }
   }, [movies, query, isChecked]);
+
 
   const handleSearchMovies = (newQuery) => {
     const lowercaseQuery = newQuery.toLowerCase();
@@ -63,8 +76,7 @@ function Movies({
             savedMovies={savedMovies}
             isBlockInput={isBlockInput}
             onDelete={onDelete}
-          />
-        }
+          />}
       </main>
       <Footer />
     </>

@@ -4,16 +4,15 @@ import { getTransformationTime } from "../../utils/utils"
 // import { useState, useEffect } from "react";
 
 function MoviesCard({
-  movie,
-  isSavedMoviePage,
-  onSave,
-  onDelete,
-  savedMovies,
+  movie, 
+  isSavedMoviePage, 
+  onSave, 
+  onDelete, 
+  savedMovies
 }) {
   // console.log(movie)
   const isSaved = savedMovies.some(item => item?.movieId === movie.id);
-  
-  
+    
   const handleSave = () => {
     onSave(movie);
   };

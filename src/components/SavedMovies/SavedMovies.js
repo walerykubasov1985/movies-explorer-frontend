@@ -4,7 +4,7 @@ import Header from "../Header/Header"
 import MoviesCardList from "../MoviesCardList/MoviesCardList"
 import SearchForm from "../SearchForm/SearchForm"
 import "./SavedMovies.css"
-import { filterMovies } from "../../utils/utils"
+import  filterMovies  from "../../utils/utils"
 import Preloader from "../Preloder/Preloader"
 
 

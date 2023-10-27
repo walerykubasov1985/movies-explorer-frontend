@@ -19,8 +19,8 @@ class MoviesCardApi {
     }).then((res) => this._getResponseData(res));
   }
 }
-const apiBeatfilm = new MoviesCardApi({
+const moviesApi = new MoviesCardApi({
   address: "https://api.nomoreparties.co/beatfilm-movies",
   headers: {},
 });
-export default apiBeatfilm;
+export default moviesApi;

@@ -37,6 +37,9 @@
   font-size: 12px;
   font-weight: 500;
 }
+.cards-movies__more_hidden {
+  display: none;
+}
 
 .cards-movies__no-card {
   margin: auto;
