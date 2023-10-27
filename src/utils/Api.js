@@ -45,6 +45,9 @@ class MainApi {
       .then(res => this._getResponseData(res))
   }
 
+
+  
+
   createNewMovie(data) {
     const baseMovieUrl = 'https://api.nomoreparties.co';
     return fetch(`${this._baseUrl}/movies`, {
@@ -79,6 +82,9 @@ class MainApi {
     }).then(res => this._getResponseData(res))
   }
 }
+
+
+
 
 const mainApi = new MainApi({
   baseUrl: 'https://api.movies-explorer-wawa.nomoreparties.co',
