@@ -30,8 +30,6 @@ function App() {
   const [userAutorisate, setUserAutorisate] = useState(false);
   const [isCheckingToken, setIsCheckingToken] = useState(true);
 
-
-
   // регистрация пользователя
   const handleRegister = (name, password, email) => {
     auth
