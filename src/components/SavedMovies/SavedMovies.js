@@ -4,55 +4,96 @@ import Header from "../Header/Header"
 import MoviesCardList from "../MoviesCardList/MoviesCardList"
 import SearchForm from "../SearchForm/SearchForm"
 import "./SavedMovies.css"
-import  filterMovies  from "../../utils/utils"
-import Preloader from "../Preloder/Preloader"
+import mainApi from "../../utils/MainApi"
 
+function SavedMovies({ props }) {
 
-function SavedMovies({
-  savedMovies,
-  onDelete,
-  isLoading,
-  }) {
-  const [filteredMovies, setFilteredMovies] = useState(savedMovies);
-  const [currentQuery, setCurrentQuery] = useState('');
-  const [isShortMovies, setIsShortMovies] = useState(false);
+  const { isLiked, setliked, saveMovies, setSaveMovies } = props
+  const [filteredMoviesSave, setFilteredMoviesSave] = useState([]);
+  const [querySave, setQuerySave] = useState("");
+  const [shortSave, setShortSave] = useState(false);
 
-  const handleSearch = (query) => {
-    setCurrentQuery(query);
-    const result = filterMovies(savedMovies, query, isShortMovies);
-   console.log(result)
-    setFilteredMovies(result);
+  const refreshMoviesSave = (saveMovies) => {
+    setSaveMovies(saveMovies);
+    localStorage.setItem('allMoviesSave', JSON.stringify(saveMovies));
   };
 
-  const handleCheckboxChange = (checked) => {
-    setIsShortMovies(checked);
-    const result = filterMovies(savedMovies, currentQuery, checked);
-    setFilteredMovies(result);
+  const refreshFindMoviesSave = (filteredMoviesSave) => {
+    setFilteredMoviesSave(filteredMoviesSave);
+    localStorage.setItem('findMoviesSave', JSON.stringify(filteredMoviesSave));
+  };
+
+  const refreshSearchQuerySave = (querySave) => {
+    setQuerySave(querySave);
+    localStorage.setItem('querySave', querySave);
+  };
+
+  const refreshShortMovieSave = (shortSave) => {
+    setShortSave(shortSave);
+    localStorage.setItem('shortSave', JSON.stringify(shortSave));
   };
 
   useEffect(() => {
-    setFilteredMovies(savedMovies);
-  }, [savedMovies])
+    refreshMoviesSave(JSON.parse(localStorage.getItem('allMoviesSave') || '[]'));
+    refreshFindMoviesSave(JSON.parse(localStorage.getItem('findMoviesSave') || '[]'));
+    refreshSearchQuerySave(localStorage.getItem('querySave') || '');
+    refreshShortMovieSave(JSON.parse(localStorage.getItem('shortSave') || 'false'));
+    mainApi
+      .getSavedMovies()
+      .then(movies => {
+        refreshMoviesSave(movies);
+        refreshFindMoviesSave(movies);
+      })
+      .catch((error) => {
+        console.log(`Ошибка: ${error}`);
+      });
+  }, []);
+
+  const findMoviesByName = (saveMovies, key = '') => {
+    const wordByLowerCase = key.toLowerCase();
+    const filterMovie = saveMovies.filter(
+      (movie) =>
+        (key ? movie.nameRU.toLowerCase().includes(wordByLowerCase) : true)
+
+    );
+
+    return filterMovie.sort((a, b) => {
+      if (a.nameRU < b.nameRU) return -1;
+      if (a.nameRU > b.nameRU) return 1;
+      return 0;
+    });
+
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const filteredMovies = findMoviesByName(saveMovies, querySave)
+    setSaveMovies(filteredMovies);
+    setFilteredMoviesSave(filteredMovies);
+  }
 
   return (
     <>
       <Header />
       <main className="movies">
         <SearchForm
-          onSearch={handleSearch}
-          isChecked={isShortMovies}
-          setChecked={handleCheckboxChange}
+          short={shortSave}
+          onSubmit={handleSubmit}
+          refreshSearchQuery={refreshSearchQuerySave}
+          refreshShortMovie={refreshShortMovieSave}
         />
-        {isLoading ?
-          <Preloader />
-          :
+        {!saveMovies ? null : (
           <MoviesCardList
-            movies={filteredMovies}
-            onDelete={onDelete}
-            isSavedMoviePage={true}
-            savedMovies={savedMovies}
+            movies={saveMovies.filter(movie => !shortSave || movie.duration <= 40)}
+            short={shortSave}
+            saveMovies={saveMovies}
+            setSaveMovies={setSaveMovies}
+            setFilteredMoviesSave={setFilteredMoviesSave}
+            isSavedMovies={true}
+            isLiked={isLiked}
+            setliked={setliked}
           />
-        }
+        )}
       </main>
       <Footer />
     </>

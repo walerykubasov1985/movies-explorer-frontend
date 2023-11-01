@@ -1,31 +1,44 @@
-import { useState, useCallback } from 'react';
+import { useCallback, useState } from 'react';
+
+const regex = /^[a-zA-Zа-яА-Я\sё-]+$/;
 
 
-export function useFormValidation() {
-  
-  const [values, setValues] = useState({});
-  const [errors, setErrors] = useState({});
-  const [isValid, setIsValid] = useState(false);
-  
+export  function useValidation() {
+  const [values, setValues] = useState({
+    name: '',
+    email: '',
+    password: '',
+  }); //переключатель состояния полей инпутов
+  const [errors, setErrors] = useState({}); //ошибок 
+  const [isValid, setIsValid] = useState(false);//валидности поля
+  const [errorMessage, setErrorMessage] = useState('');//ошибки с сервера
 
-  function handleChange(e) {
-    const input = e.target;
-    const name = input.name;
-    const value = input.value;
+  const handleChange = (event) => {
+    const target = event.target;
+    const name = target.name;
+    const value = target.value; 
 
-    setValues({...values, [name]: value});
-    setErrors({...errors, [name]: input.validationMessage});
-    setIsValid(input.closest('form').checkValidity());
-  };
+    const isName = name ==='name'
+    const isNameValidation = isName ? regex.test(value) : true;
+    const errorMessage = !isNameValidation ? event.target.validationMessage ||
+    'Используйте только латиницу, кириллицу, пробел или дефис'
+    : event.target.validationMessage;
 
+    setValues({ ...values, [name]: value });
+    setErrors({ ...errors, [name]: errorMessage });
+    setIsValid(isNameValidation && target.closest('form').checkValidity());
+  }
+ 
+  //сброс полей
   const resetForm = useCallback(
     (resetValues = {}, resetErrors = {},  resetIsValid = false, errorMessage = '',) => {
       setValues(resetValues);
       setErrors(resetErrors);
       setIsValid(resetIsValid);
+      setErrorMessage(errorMessage);
     },
-    [setValues, setErrors, setIsValid]
+    [setValues, setErrors, setIsValid, setErrorMessage]
   );
 
-    return {values, errors, isValid, handleChange, setValues, setIsValid, setErrors, resetForm};
-};
+  return {setErrorMessage, errorMessage, values, errors, isValid, handleChange, resetForm, setValues, setErrors, setIsValid };
+}

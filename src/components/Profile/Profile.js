@@ -1,45 +1,51 @@
 import Header from "../Header/Header"
-import { useContext, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import "./Profile.css"
 import CurrentUserContext from "../../context/CurrentUserContext";
-import { useFormValidation } from '../../utils/FormValidation';
+import { useValidation } from "../../utils/FormValidation";
 
+function Profile({
+  isBlockInput,
+  signOut,
+  handleUpdateProfile,
+  errMessage,
+  textMessage
+}) {
+  const { isValid, values, errors, handleChange, setValues, resetForm } = useValidation();
+  const { currentUser } = useContext(CurrentUserContext);
 
-function Profile({ onUpdateProfile, errMessage, setErrorMessage, textMessage, setSaveMessage, exitProfil, setIsBlockInput, isBlockInput }) {
-  const currentUser = useContext(CurrentUserContext);
-  const { values, errors, isValid, handleChange, setValues} = useFormValidation();
+  useEffect(() => {
+    resetForm();
+  }, [resetForm]);
 
   useEffect(() => {
     setValues({
       name: currentUser.name,
-      email: currentUser.email
+      email: currentUser.email,
     });
+  }, [setValues, currentUser.name, currentUser.email]);
 
-  }, [setValues, currentUser]);
-
-  function handleRedactClick() {
-    setIsBlockInput(true);
-    setSaveMessage(false);
-    setErrorMessage(false);
-  };
-
-  const buttonBlock = isValid && (values.name !== currentUser.name || values.email !== currentUser.email);
-
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
-    onUpdateProfile(
-      values.name,
-      values.email
-    )
-    setIsBlockInput(false);
+    const { name, email } = values;
+    handleUpdateProfile({ name, email });
   }
+  const [isInputActive, setIsInputActive] = useState(false);
+
+  function handleInputState() {
+    setIsInputActive(true)
+  }
+
+  const buttonIsValid =
+    isValid &&
+    (values.name !== currentUser.name || values.email !== currentUser.email);
 
   return (
     <>
       <Header />
       <main className="content">
         <section className="profile">
-          <h1 className="profile__title">{`Привет, ${values.name}!`}</h1>
+          <h1 className="profile__title">{`Привет, ${currentUser.name}!`}</h1>
           <form className="profile__form" onSubmit={handleSubmit}>
             <label className='profile__label'>Имя
               <input
@@ -51,9 +57,9 @@ function Profile({ onUpdateProfile, errMessage, setErrorMessage, textMessage, se
                 required
                 id='name'
                 placeholder=""
-                value={values.name || ''}
+                value={values.name ? values.name : ''}
                 onChange={handleChange}
-                disabled={!isBlockInput}
+                disabled={!isInputActive || isBlockInput ? true : false}
               />
               <span className="form__error-message" >{errors.name || ''}</span>
             </label>
@@ -66,10 +72,11 @@ function Profile({ onUpdateProfile, errMessage, setErrorMessage, textMessage, se
                 required
                 id='email'
                 placeholder=""
-                value={values.email || ''}
+                value={values.email ? values.email : ''}
                 pattern="^[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+$"
                 onChange={handleChange}
-                disabled={!isBlockInput}
+                disabled={!isInputActive || isBlockInput ? true : false}
+                readOnly={isBlockInput && true}
               />
               <span className="form__error-message " >{errors.email || ''}</span>
             </label>
@@ -78,20 +85,35 @@ function Profile({ onUpdateProfile, errMessage, setErrorMessage, textMessage, se
             <span className="profile__error">{errMessage}</span>
             <span className="profile__error profile__save">{textMessage}</span>
             {
-              !isBlockInput ?
+              isInputActive ? (
+                <button
+                  className={buttonIsValid ? 'profile__btn-save' : 'profile__btnprofile__btn-save_non-activ'}
+                  type="submit"
+                  disabled={!buttonIsValid || isBlockInput ? true : false}
+                >
+                  Сохранить
+                </button>
+              ) : (
                 <nav className="profile__btns">
-                  <button className="profile__btn profile__btn_redact" type="button" onClick={handleRedactClick}> Редактировать</button>
-                  <button className="profile__btn profile__btn_close" type="button" onClick={exitProfil}>Выйти из аккаунта</button>
-                </nav>
-                :
-                <>
-                  <button className={buttonBlock ? "profile__btn-save" : " profile__btn-save profile__btn-save_non-activ"} type="submit" disabled={!isBlockInput}>Сохранить</button>
-                </>
-            }
-          </form>
+                  <button
+                    className="profile__btn profile__btn_redact"
+                    type="button"
+                    onClick={handleInputState}
+                  >
+                    Редактировать
+                  </button>
+                  <button
+                    className="profile__btn profile__btn_close"
+                    type="button"
+                    onClick={signOut}
+                  >
+                    Выйти из аккаунта
+                  </button>
+                </nav>)}
+        </form>
 
-        </section>
-      </main>
+      </section >
+    </main >
     </>
   )
 }

@@ -1,109 +1,102 @@
 import "./MoviesCardList.css"
 import MoviesCard from "../MoviesCard/MoviesCard"
 import { useState, useEffect } from "react"
+import { useLocation } from 'react-router-dom';
 import {
   SCREEN_1280,
   SCREEN_990,
   SCREEN_768,
-  SCREEN_320,
   QUANTITY_SCREEN_1280,
   QUANTITY_SCREEN_990,
   QUANTITY_SCREEN_768,
   QUANTITY_SCREEN_320,
   CARDS_STEP_1280,
   CARDS_STEP_990,
-  CARDS_STEP_320
+  CARDS_STEP_320,
 } from "../../utils/constant"
 
-function MoviesCardList({
-  movies,
-  isSavedMoviePage,
-  onSave,
-  savedMovies,
-  onDelete,
-}) {
+function MoviesCardList({ props }) {
+  const { isLiked,
+    setliked,
+    setFilteredMoviesSave,
+    movies,
+    setSaveMovies,
+    saveMovies,
+    handleLikeMovie } = props
+  const [visibleMovies, setVisibleMovies] = useState([]);
+  const [hiddenMovies, setHiddenMovies] = useState([])
 
-  const [quantiteMoviesNum, setQuantiteMoviesNum] = useState(0);
-  const [stepMovies, setStepMovies] = useState(0);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [showList, setShowList] = useState([]);
-
-  const handleResize = () => {
-    setTimeout(() => setWindowWidth(window.innerWidth), 1000);
-  };
+  const [cards, setCards] = useState(QUANTITY_SCREEN_1280);
+  const [moreCards, setMoreCards] = useState(CARDS_STEP_1280);
 
   useEffect(() => {
-    window.addEventListener("resize", handleResize)
-    if (windowWidth >= SCREEN_1280) {
-      setQuantiteMoviesNum(QUANTITY_SCREEN_1280);
-      setStepMovies(CARDS_STEP_1280);
-    } else if (windowWidth >= SCREEN_990) {
-      setQuantiteMoviesNum(QUANTITY_SCREEN_990);
-      setStepMovies(CARDS_STEP_990);
-    } else if (windowWidth >= SCREEN_768) {
-      setQuantiteMoviesNum(QUANTITY_SCREEN_768);
-      setStepMovies(CARDS_STEP_320);
-    } else if (windowWidth >= SCREEN_320) {
-      setQuantiteMoviesNum(QUANTITY_SCREEN_320);
-      setStepMovies(CARDS_STEP_320);
-    }
+    changingSize()
+    window.addEventListener("resize", changingSize)
     return () => {
-      window.removeEventListener("resize", handleResize)
+      window.removeEventListener("resize", changingSize)
     }
-  }, [windowWidth, movies]);
+  }, []);
 
+  function changingSize() {
+    const size = window.innerWidth;
+    if (size >  SCREEN_1280){
+      setCards(QUANTITY_SCREEN_1280)
+      setMoreCards(CARDS_STEP_1280)
+    } else if (size > SCREEN_990) {
+      setCards(QUANTITY_SCREEN_990)
+      setMoreCards(CARDS_STEP_990)
+    } else if (size > SCREEN_768) {
+      setCards(QUANTITY_SCREEN_768)
+      setMoreCards(CARDS_STEP_320)
+    } else {
+      setCards(QUANTITY_SCREEN_320)
+      setMoreCards(CARDS_STEP_320)
+    }
+  }
 
   useEffect(() => {
-    if (movies.length && !isSavedMoviePage) {
-      const res = movies.filter((item, index) => index < quantiteMoviesNum);
-      setShowList(res);
-    } else setShowList(movies);
+    setVisibleMovies(movies.slice(0, cards))
+    setHiddenMovies(movies.slice(cards))
+  }, [movies, cards]);
 
-  }, [movies, isSavedMoviePage, quantiteMoviesNum]);
+  function handleMoreBtnClick() {
+    const moviesArray = [
+      ...visibleMovies,
+      ...hiddenMovies.slice(0, moreCards)
+    ];
+    setVisibleMovies(moviesArray)
+    setHiddenMovies(hiddenMovies.slice(moreCards))
 
-  const handleMoreBtnClick = () => {
-    const start = showList.length;
-    const end = start + stepMovies;
-    const residual = movies.length - start;
-
-    if(residual > 0){
-      const newCards = movies.slice(start, end);
-      setShowList([...showList, ...newCards]);
-    }
-  };
-  
-  // console.log(movies)
+  }
   return (
     <section className="cards-movies">
-      {movies.length === 0 ? <p className="cards-movies__text">Ничего не найдено</p> : ""}
-
-      <ul className="cards-movies__container">
-
-        {showList.map((item) => 
-                <li key={item.id ?? item.movieId}>
-                  <MoviesCard
-                    movie={item}
-                    isSavedMoviePage={isSavedMoviePage}
-                    onSave={onSave}
-                    savedMovies={savedMovies}
-                    onDelete={onDelete}
-                  />
-                </li>
-          )}
-      </ul>
-
-      {
-        !isSavedMoviePage && movies.length > quantiteMoviesNum &&
-        <button
-          className="cards-movies__more"
-          type="button"
-          onClick={handleMoreBtnClick}
-        >Ещё</button>
+      {visibleMovies.length === 0 ? (
+        <p>Ничего не найдено</p>
+      ) : (
+        <ul className="cards-movies__container">
+          {visibleMovies.map((movie) => (
+            <MoviesCard
+              movie={movie}
+              key={movie.id ?? movie.movieId}
+              saveMovies={saveMovies}
+              handleLikeMovie={handleLikeMovie}
+              setSaveMovies={setSaveMovies}
+              setFilteredMoviesSave={setFilteredMoviesSave}
+              isSavedMovies={props.isSavedMovies}
+              isLiked={isLiked}
+              setliked={setliked}
+            />
+          ))}
+        </ul>
+      )}{
+        visibleMovies.length > 0 && hiddenMovies.length > 0 && (
+          <button
+            className="cards-movies__more"
+            type="button"
+            onClick={handleMoreBtnClick}
+          >Ещё</button>)
       }
-
-    </section >
-
+    </section>
   )
 }
-
-export default MoviesCardList
+export default MoviesCardList;

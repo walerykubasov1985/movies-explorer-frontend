@@ -4,14 +4,14 @@ import { Link, useLocation } from "react-router-dom";
 import "./Header.css"
 
 
-function Header({ loggedIn }) {
+function Header({isLoggedIn }) {
   const location = useLocation();
 
 
   return (
     <header className= {location.pathname === '/' ? "header" : "header header_none-color"} >
       <Logo />
-      {!loggedIn ?
+      {!isLoggedIn ?
         <Navigation /> :
         <nav className="header__butons">
           <Link to="/signup" className="header__btn">Регистрация</Link>

@@ -27,7 +27,9 @@ function AccessForm({
 
           <div className="form__btn-contayner">
             <span className="form__info_err-message" >{errMessage}</span>
-            <button className={isValid ? "form__button" : "form__button form__button_disabled"} type="submit" disabled={isValid?false:true}>
+            <button className={isValid ? "form__button" : "form__button form__button_disabled"}
+              type="submit"
+              disabled={isValid ? false : true}>
               {buttonName}
             </button>
           </div>

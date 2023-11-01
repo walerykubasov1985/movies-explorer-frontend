@@ -1,22 +1,19 @@
 import { useEffect } from "react";
 import AccessForm from "../AccessForm/AccessForm";
-import { useFormValidation } from '../../utils/FormValidation';
+import { useValidation } from "../../utils/FormValidation";
 
+function Register({ isBlockInput, onRegister }) {
 
-
-function Register({ onRegister, errMessage, setErrorMessage }) {
-
-  const {values, errors, isValid, handleChange, resetForm} = useFormValidation();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onRegister(values.name, values.password, values.email)   
-  };
+  const {  values, errors, isValid, handleChange, resetForm } = useValidation();
 
   useEffect(() => {
     resetForm();
-    setErrorMessage({ errMessage: '' });
-  }, []);
+  }, [resetForm]);
+
+  function handleSubmit (e) {
+    e.preventDefault();
+    onRegister(values.name, values.password, values.email)  
+  };
 
   return (
     <AccessForm
@@ -26,8 +23,8 @@ function Register({ onRegister, errMessage, setErrorMessage }) {
       link="Войти"
       textLink="Уже зарегистрированы?"
       onSubmit={handleSubmit}
-      errMessage={errMessage}
-      isValid = {isValid}
+      isValid={isValid}
+      
     >
       <label className="form__label">Имя
         <input
@@ -39,8 +36,9 @@ function Register({ onRegister, errMessage, setErrorMessage }) {
           placeholder="введите имя"
           minLength='2'
           maxLength='30'
-          onChange={handleChange}
+          onChange={ handleChange}
           value={values.name || ''}
+          disabled={isBlockInput && true}
         />
         <span className="form__error-message" >{errors.name}</span>
       </label>
@@ -54,8 +52,9 @@ function Register({ onRegister, errMessage, setErrorMessage }) {
           type="text"
           placeholder="ваша почта"
           pattern="^[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+$"
-          onChange={handleChange}
+          onChange={ handleChange}
           value={values.email || ''}
+          disabled={isBlockInput && true}
         />
         <span className="form__error-message" >{errors.email || ''}</span>
       </label>
@@ -71,7 +70,7 @@ function Register({ onRegister, errMessage, setErrorMessage }) {
           placeholder="введите пароль"
           minLength='4'
           maxLength='15'
-          onChange={handleChange}
+          onChange={ handleChange}
           value={values.password || ''}
         />
         <span className="form__error-message" >{errors.password || ''}</span>

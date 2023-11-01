@@ -4,79 +4,121 @@ import Header from "../Header/Header"
 import "./Movies.css"
 import MoviesCardList from "../MoviesCardList/MoviesCardList"
 import Footer from "../Footer/Footer"
-import filterMovies from "../../utils/utils"
 import Preloader from "../Preloder/Preloader"
-
+import moviesApi from "../../utils/MoviesApi"
+import mainApi from "../../utils/MainApi"
 
 function Movies({
-  movies,
-  isLoading,
-  savedMovies,
-  onSave,
-  isBlockInput,
-  onDelete
+  isLiked,
+  setliked,
+  setSaveMovies,
+  saveMovies,
+  handleLikeMovie
 }) {
-  // console.log(movies)
-  const [query, setQuery] = useState(localStorage.getItem('searchQuery') || '');
-  const [isChecked, setChecked] = useState(localStorage.getItem('isShortFilmChecked') === 'true');
-  const [filteredMovies, setFilteredMovies] = useState(JSON.parse(localStorage.getItem('filteredMovies')) || []);
-  const [inputValue, setInputValue] = useState(localStorage.getItem('inputValue') || '');
+  const [isLoading, setIsLoading] = useState(false)
+  const [movies, setMovies] = useState([]);
+  const [filteredMovies, setFilteredMovies] = useState([]);
+  const [query, setQuery] = useState("");
+  const [short, setShort] = useState(false);
 
-  useEffect(() => {
-    localStorage.setItem('searchQuery', query);
-  }, [query]);
-
-  useEffect(() => {
-    localStorage.setItem('isShortFilmChecked', isChecked.toString());
-  }, [isChecked]);
-
-  useEffect(() => {
-    localStorage.setItem('filteredMovies', JSON.stringify(filteredMovies));
-  }, [filteredMovies]);
-
-  useEffect(() => {
-    localStorage.setItem('inputValue', inputValue);
-  }, [inputValue]);
-
-  useEffect(() => {
-    if (query) {
-      const result = filterMovies(movies, query, isChecked);
-      setFilteredMovies(result);
-    }
-  }, [movies, query, isChecked]);
-
-
-  const handleSearchMovies = (newQuery) => {
-    const lowercaseQuery = newQuery.toLowerCase();
-    const searchResult = movies.filter(movie =>
-      movie.nameRU.toLowerCase().includes(lowercaseQuery)
-    );
-    setFilteredMovies(searchResult);
-    setQuery(newQuery);
+  const refreshMovies = (movies) => {
+    setMovies(movies);
+    localStorage.setItem('allMovies', JSON.stringify(movies));
   };
+
+  const refreshFindMovies = (movies) => {
+    setFilteredMovies(movies);
+    localStorage.setItem('findMovies', JSON.stringify(movies));
+  };
+
+  const refreshSearchQuery = (query) => {
+    setQuery(query);
+    localStorage.setItem('query', query);
+  };
+
+  const refreshShortMovie = (short) => {
+    setShort(short);
+    localStorage.setItem('short', JSON.stringify(short));
+  };
+
+  const refreshMoviesSave = (saveMovies) => {
+    setSaveMovies(saveMovies);
+    localStorage.setItem('allMoviesSave', JSON.stringify(saveMovies));
+  };
+
+
+  useEffect(() => {
+    refreshMovies(JSON.parse(localStorage.getItem('allMovies') || '[]'));
+    refreshFindMovies(JSON.parse(localStorage.getItem('findMovies') || '[]'));
+    refreshSearchQuery(localStorage.getItem('query') || '');
+    refreshShortMovie(JSON.parse(localStorage.getItem('short') || 'false'));
+
+    mainApi
+      .getInitialCards()
+      .then(movies => {
+        refreshMoviesSave(movies);
+      })
+      .catch((error) => {
+        console.log(`Ошибка: ${error}`);
+      });
+  }, []);
+
+  const findMoviesByName = (movies, key = '') => {
+    const wordByLowerCase = key.toLowerCase();
+    const filterMovie = movies.filter(
+      (movie) =>
+        (key ? movie.nameRU.toLowerCase().includes(wordByLowerCase) : true)
+    );
+
+    return filterMovie.sort((a, b) => {
+      if (a.nameRU < b.nameRU) return -1;
+      if (a.nameRU > b.nameRU) return 1;
+      return 0;
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsLoading(true)
+    moviesApi
+      .getMovies()
+      .then(movies => {
+        const filteredMovies = findMoviesByName(movies, query)
+        setMovies(filteredMovies);
+        localStorage.setItem('allMovies', JSON.stringify(filteredMovies));
+        setFilteredMovies(filteredMovies);
+        localStorage.setItem('findMovies', JSON.stringify(filteredMovies));
+      })
+      .catch((error) => console.log(`Ошибка: ${error}`))
+      .finally(() => setIsLoading(false))
+  }
 
   return (
     <>
       <Header />
       <main className="movies">
         <SearchForm
-          onSearch={(query) => handleSearchMovies(query)}
-          isChecked={isChecked}
-          setChecked={setChecked}
-          initialValue={inputValue}
-          onInputChange={setInputValue}
-        />
-        {isLoading ?
+          query={query}
+          onSubmit={handleSubmit}
+          refreshSearchQuery={refreshSearchQuery}
+          short={short}
+          refreshShortMovie={refreshShortMovie} />
+        {isLoading ? (
           <Preloader />
-          :
+        ) : (
           <MoviesCardList
-            movies={filteredMovies}
-            isSavedMoviePage={false}
-            onSave={onSave}
-            savedMovies={savedMovies}
-            isBlockInput={isBlockInput}
-            onDelete={onDelete}
-          />}
+            movies={movies.filter(movie => !short || movie.duration <= 40)}
+            short={short}
+            saveMovies={saveMovies}
+            handleLikeMovie={handleLikeMovie}
+            setSaveMovies={setSaveMovies}
+            isSavedMovies={false}
+            setFilteredMovies={setFilteredMovies}
+            isLiked={isLiked}
+            setliked={setliked}
+          />
+        )}
+
       </main>
       <Footer />
     </>

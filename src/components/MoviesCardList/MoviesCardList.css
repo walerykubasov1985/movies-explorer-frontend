@@ -26,6 +26,10 @@
   color: #fff;
   font-size: 12px;
   font-weight: 500;
+  display: none;
+}
+.cards-movies__more_activ {
+  display: block;
 }
 
 .cards-movies__more:hover {
@@ -36,9 +40,6 @@
   color: #fff;
   font-size: 12px;
   font-weight: 500;
-}
-.cards-movies__more_hidden {
-  display: none;
 }
 
 .cards-movies__no-card {

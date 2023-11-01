@@ -1,18 +1,27 @@
 import "./Login.css"
 import "../Form/Form.css"
 import AccessForm from "../AccessForm/AccessForm"
-import { useFormValidation } from '../../utils/FormValidation';
+import { useValidation } from "../../utils/FormValidation";
+import { useState, useEffect } from 'react';
 
-function Login({ handleLogin, errMessage, setErrorMessage }) {
-  const { values, errors, isValid, handleChange } = useFormValidation();
+function Login({
+  isBlockInput,
+  onLogin,
+  errMessage
+}) {
+  const { values,  errors, isValid, handleChange, resetForm } = useValidation();
 
-  const handleLoginSubmit = (e) => {
+  useEffect(() => {
+    resetForm();
+  }, [resetForm]);
+
+  function handleSubmit (e) {
     e.preventDefault();
-    handleLogin(
-      values.password,
-      values.email)
+    onLogin({
+      email: values.email,
+      password: values.password
+    })
   };
-
   return (
     <AccessForm
       linkTo="/signup"
@@ -20,7 +29,7 @@ function Login({ handleLogin, errMessage, setErrorMessage }) {
       buttonName="Войти"
       link="Регистрация"
       textLink="Ещё не зарегистрированы?"
-      onSubmit={handleLoginSubmit}
+      onSubmit={handleSubmit}
       errMessage={errMessage}
       isValid={isValid}
     >
@@ -34,9 +43,10 @@ function Login({ handleLogin, errMessage, setErrorMessage }) {
           pattern="^[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+$"
           placeholder="введите почту"
           value={values.email || ''}
-          onChange={handleChange}
+          onChange={ handleChange}
+          disabled={isBlockInput && true}
         />
-        <span className="form__error-message" >{errors.email}</span>
+        <span className="form__error-message" >{errors.email || ""}</span>
       </label>
       <label className="form__label">Пароль
         <input
@@ -49,9 +59,10 @@ function Login({ handleLogin, errMessage, setErrorMessage }) {
           minLength='4'
           maxLength='15'
           value={values.password || ''}
-          onChange={handleChange}
+          onChange={ handleChange}
+          disabled={isBlockInput && true}
         />
-        <span className="form__error-message" >{errors.password}</span>
+        <span className="form__error-message" >{errors.password || ""}</span>
       </label>
     </AccessForm>
   )
